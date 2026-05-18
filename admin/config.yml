@@ -2,10 +2,6 @@ backend:
   name: git-gateway
   branch: main
 
-# TĄ LINIJKĄ WYŁĄCZAMY PODZIELONY EKRAN I WYMUSZAMY WĄSKI WIDOK (JEDNO POD DRUGIM)
-editor:
-  preview: false
-
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
