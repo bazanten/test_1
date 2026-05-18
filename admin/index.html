@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Administratora | Warsztat</title>
-  <!-- Zaktualizowany link do Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Dołączenie widżetu Netlify Identity do autoryzacji -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+  <!-- Dedykowany kontener, w który CMS wstrzyknie panel sterowania -->
+  <div id="nc-root"></div>
+
+  <!-- Skrypt Decap CMS umieszczony na samym dole, żeby załadował się po HTML-u -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
