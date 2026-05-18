@@ -2,69 +2,19 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <!-- ODBLOKOWANIE ZOOMOWANIA: Zmieniliśmy user-scalable na yes, aby w razie czego dało się uszczypnąć ekran i pomniejszyć widok -->
+  <!-- Gwarantuje prawidłowe skalowanie i pozwala powiększyć/zmniejszyć ekran palcami -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Panel Administratora | Warsztat</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   
   <style>
-    /* GLOBALNE WYMUSZENIE ELASTYCZNOŚCI */
-    html, body, #nc-root {
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      /* Włączamy normalne przewijanie w pionie i poziomie, jeśli jakikolwiek element wyskoczy */
-      overflow-x: auto !important; 
-      overflow-y: auto !important;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Targetowanie wszystkich kontenerów wewnątrz CMS-a */
-    #nc-root * {
-      max-width: 100% !important;
-      box-sizing: border-box !important;
-    }
-
-    /* POPRAWKI DLA SMARTFONÓW */
-    @media (max-width: 768px) {
-      /* Wymuszenie, by główne sekcje edytora układały się w jedną kolumnę zamiast obok siebie */
-      div[class^="AppMainContainer"],
-      div[class^="EditorContainer"],
-      div[class^="CollectionContainer"] {
-        flex-direction: column !important;
-        padding: 5px !important;
-      }
-
-      /* Wyłączenie prawego panelu podglądu (Preview) na telefonie. 
-         Renowator w warsztacie potrzebuje tylko czystych pól do wpisania tekstu i dodania foto, 
-         podgląd na żywo na ekranie 5-calowym tylko marnuje miejsce i rozpycha panel. */
-      div[class^="EditorPreviewPaneContainer"], 
-      section[class^="PreviewPaneContainer"] {
-        display: none !important;
-      }
-
-      /* Rozszerzenie lewej części z formularzami na cały ekran */
-      div[class^="EditorFormContainer"] {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 10px !important;
-      }
-
-      /* Pasek górny (z przyciskiem Publish/Opublikuj) */
-      div[class^="TopBarContainer"] {
-        width: 100% !important;
-        position: static !important; /* Zapobiega zamrażaniu paska, który zasłania pół ekranu */
-        padding: 10px !important;
-        display: flex !important;
-        flex-wrap: wrap !important; /* W razie potrzeby przyciski przejdą do nowej linii */
-        gap: 10px !important;
-      }
-
-      /* Poprawka dla list i kafelków projektów */
-      div[class^="Grid"], div[class^="CardsContainer"] {
-        grid-template-columns: 1fr !important; /* Tylko jedna kolumna na telefonie */
-      }
+    /* Zapobiega wyskakiwaniu elementów poza ekran smartfona */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
   </style>
 </head>
