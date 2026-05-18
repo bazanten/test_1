@@ -4,14 +4,60 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Administratora | Warsztat</title>
-  <!-- Dołączenie widżetu Netlify Identity do autoryzacji -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
+  <!-- CSS poprawiający responsywność panelu na smartfonach -->
+  <style>
+    /* Blokada poziomego skrolowania dla całego panelu */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100% !important;
+    }
+
+    /* Wymuszenie zmian stylów w strukturze Decap CMS na małych ekranach */
+    @media (max-width: 768px) {
+      /* Zmniejszenie bocznego paska nawigacji CMS, żeby nie zajmował pół ekranu */
+      header {
+        padding: 10px !important;
+      }
+      
+      /* Główne kontenery formularzy */
+      div[class*="AppMainContainer"], 
+      div[class*="CollectionContainer"],
+      div[class*="EditorContainer"] {
+        padding: 10px !important;
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+
+      /* Pola formularza (inputy, textarea) – dopasowanie do szerokości */
+      div[class*="ControlContainer"] {
+        margin-bottom: 15px !important;
+        width: 100% !important;
+      }
+
+      /* Górny pasek z przyciskiem "Publish" – zabezpieczenie przed uciekaniem */
+      div[class*="TopBarContainer"] {
+        padding: 0 10px !important;
+        justify-content: space-between !important;
+      }
+
+      /* Przyciski w panelu */
+      button {
+        padding: 6px 12px !important;
+        font-size: 14px !important;
+      }
+
+      /* Zdjęcia podglądu – żeby wielka fotka nie rozepchała ekranu */
+      img[class*="ImagePreview"] {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Dedykowany kontener, w który CMS wstrzyknie panel sterowania -->
   <div id="nc-root"></div>
-
-  <!-- Skrypt Decap CMS umieszczony na samym dole, żeby załadował się po HTML-u -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
