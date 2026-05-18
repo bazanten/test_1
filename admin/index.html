@@ -5,88 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Administratora | Warsztat</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  
-  <style>
-    /* EKSTREMALNA NAPRAWA DLA SMARTFONÓW - WIDOK KOLUMNOWY */
-    @media screen and (max-width: 768px) {
-      /* 1. Całkowita blokada rozjeżdżania na boki */
-      html, body, #nc-root {
-        width: 100vw !important;
-        overflow-x: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-
-      /* Usunięcie sztywnych marginesów ze wszystkich elementów wewnątrz CMS */
-      #nc-root * {
-        box-sizing: border-box !important;
-        max-width: 100vw !important;
-      }
-
-      /* 2. Menu i główna treść - układamy jedno pod drugim zamiast obok siebie */
-      div[class*="AppMainContainer"] {
-        display: flex !important;
-        flex-direction: column !important; 
-      }
-
-      /* 3. Lewe menu (z kolekcjami) ląduje na samej górze jako pasek */
-      div[class*="SidebarContainer"] {
-        width: 100% !important;
-        border-right: none !important;
-        border-bottom: 2px solid #ddd !important;
-        padding: 15px 10px !important;
-      }
-
-      /* 4. Formularz dodawania zdjęć - wymuszenie 100% szerokości */
-      div[class*="EditorContainer"], 
-      div[class*="CollectionContainer"] {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        padding: 10px !important;
-      }
-
-      /* 5. Ukrycie prawego podglądu (jest kompletnie zbędny przy wrzucaniu zdjęć z telefonu) */
-      div[class*="EditorPreviewPane"] {
-        display: none !important;
-      }
-
-      /* 6. Pasek z przyciskiem "Publish" - pionowo, na całą szerokość */
-      div[class*="TopBarContainer"] {
-        display: flex !important;
-        flex-direction: column !important;
-        height: auto !important;
-        gap: 15px !important;
-        padding: 15px 0 !important;
-      }
-
-      /* 7. Warsztatowe przyciski - masywne, łatwe do kliknięcia */
-      button {
-        width: 100% !important;
-        min-height: 54px !important;
-        font-size: 16px !important;
-        font-weight: bold !important;
-        margin: 0 !important;
-      }
-      
-      /* 8. Pola tekstowe i upload zdjęć */
-      div[class*="ControlContainer"] {
-        width: 100% !important;
-        margin-bottom: 20px !important;
-      }
-      
-      /* Okienko dodawania zdjęć - wymuszenie dopasowania do ekranu */
-      div[class*="MediaLibraryModal"] {
-        width: 95% !important;
-        max-width: 95% !important;
-        left: 2.5% !important;
-        transform: translate(0, -50%) !important;
-      }
-    }
-  </style>
 </head>
 <body>
   <div id="nc-root"></div>
+  
+  <!-- Ładowanie Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- Skrypt, który brutalnie wstrzykuje style wprost do struktur CMS po jego uruchomieniu -->
+  <script>
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @media (max-width: 768px) {
+        html, body, #nc-root, #nc-root > div {
+          width: 100vw !important;
+          max-width: 100vw !important;
+          overflow-x: hidden !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        
+        /* Wymuszenie pionowego układu zamiast dwóch kolumn */
+        div[class*="AppMainContainer"], 
+        div[class*="EditorContainer"], 
+        div[class*="CollectionContainer"],
+        div[class*="EditorFormContainer"] {
+          display: flex !important;
+          flex-direction: column !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 10px !important;
+          position: static !important;
+        }
+
+        /* Wyłączenie podglądu rozpychającego ekran */
+        div[class*="EditorPreviewPaneContainer"],
+        section[class*="PreviewPaneContainer"],
+        div[class*="EditorPreviewPane"] {
+          display: none !important;
+          width: 0 !important;
+        }
+
+        /* Dostosowanie paska górnego z przyciskiem Publish */
+        div[class*="TopBarContainer"] {
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 10px !important;
+          height: auto !important;
+          position: relative !important;
+        }
+
+        /* Ogromne przyciski ułatwiające pracę w warsztacie */
+        button, a[class*="Button"] {
+          width: 100% !important;
+          min-height: 50px !important;
+          margin: 5px 0 !important;
+          font-size: 16px !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
 </body>
 </html>
