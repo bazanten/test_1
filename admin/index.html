@@ -2,65 +2,95 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Panel Administratora | Warsztat</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <div id="nc-root"></div>
   
-  <!-- Ładowanie Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-  <!-- Skrypt, który brutalnie wstrzykuje style wprost do struktur CMS po jego uruchomieniu -->
   <script>
+    // Rejestrujemy globalne style naprawcze bezpośrednio w CMS
+    CMS.registerPreviewStyle(`
+      /* 1. NAPRAWA SKALOWANIA ZDJĘĆ (NA KOMPUTERZE I TELEFONIE) */
+      /* Blokuje sytuację, gdzie oryginalne zdjęcie z aparatu rozpycha ekran */
+      img, .nc-imageWidget-image, [class*="ImageWrapper"], [class*="PreviewPane"] img {
+        max-width: 100% !important;
+        max-height: 400px !important; /* Maksymalna wysokość fotki na ekranie, reszta się ładnie przeskaluje */
+        object-fit: contain !important;
+        height: auto !important;
+        display: block !important;
+        margin: 10px 0 !important;
+      }
+    `, { raw: true });
+
+    // Wstrzykujemy style strukturalne dla układu mobilnego
     const style = document.createElement('style');
     style.innerHTML = `
+      /* 2. NAPRAWA INTERFEJSU MOBILNEGO (DLA TELEFONU) */
       @media (max-width: 768px) {
-        html, body, #nc-root, #nc-root > div {
-          width: 100vw !important;
+        /* Wymuszamy, by absolutnie wszystko trzymało się szerokości ekranu */
+        html, body, #nc-root, #nc-root > div, [class*="appLayout"] {
           max-width: 100vw !important;
+          width: 100vw !important;
           overflow-x: hidden !important;
           margin: 0 !important;
           padding: 0 !important;
         }
-        
-        /* Wymuszenie pionowego układu zamiast dwóch kolumn */
-        div[class*="AppMainContainer"], 
-        div[class*="EditorContainer"], 
-        div[class*="CollectionContainer"],
-        div[class*="EditorFormContainer"] {
+
+        /* Przebudowa głównego grida CMS na układ pionowy (jeden pod drugim) */
+        [class*="appLayout"], [class*="MainContainer"], [class*="CollectionContainer"], [class*="sidebar"] {
+          display: flex !important;
+          flex-direction: column !important;
+          position: static !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box !important;
+        }
+
+        /* Pasek boczny z Twojego screena ląduje na górze i dopasowuje się */
+        [class*="sidebar"], [class*="SidebarContainer"], div[class*="CollectionsList"] {
+          width: 100% !important;
+          min-width: 100% !important;
+          height: auto !important;
+          padding: 10px !important;
+          border-right: none !important;
+          border-bottom: 1px solid #eee !important;
+        }
+
+        /* Lista projektów i kafelki (jak ten ucięty z prawej strony) */
+        [class*="cardsGrid"], [class*="CollectionTop"], [class*="viewControls"] {
           display: flex !important;
           flex-direction: column !important;
           width: 100% !important;
-          max-width: 100% !important;
           padding: 10px !important;
+        }
+
+        /* Każda karta projektu rozciąga się teraz na pełną szerokość ekranu smartfona */
+        [class*="card"], [class*="CardContainer"], [class*="Card"] {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin: 5px 0 !important;
           position: static !important;
         }
 
-        /* Wyłączenie podglądu rozpychającego ekran */
-        div[class*="EditorPreviewPaneContainer"],
-        section[class*="PreviewPaneContainer"],
-        div[class*="EditorPreviewPane"] {
+        /* Całkowite ukrycie zbędnego podglądu na telefonie */
+        [class*="splitPane"], [class*="PreviewPane"], [class*="previewContainer"] {
           display: none !important;
           width: 0 !important;
         }
 
-        /* Dostosowanie paska górnego z przyciskiem Publish */
-        div[class*="TopBarContainer"] {
+        /* Formularz edycji/dodawania */
+        [class*="EditorContainer"], [class*="formContainer"] {
           width: 100% !important;
-          max-width: 100% !important;
           padding: 10px !important;
-          height: auto !important;
-          position: relative !important;
         }
 
-        /* Ogromne przyciski ułatwiające pracę w warsztacie */
-        button, a[class*="Button"] {
-          width: 100% !important;
-          min-height: 50px !important;
-          margin: 5px 0 !important;
-          font-size: 16px !important;
+        /* Pola wprowadzania danych */
+        [class*="controlPane"] {
+          padding: 5px !important;
         }
       }
     `;
