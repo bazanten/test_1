@@ -2,56 +2,68 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ODBLOKOWANIE ZOOMOWANIA: Zmieniliśmy user-scalable na yes, aby w razie czego dało się uszczypnąć ekran i pomniejszyć widok -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>Panel Administratora | Warsztat</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   
-  <!-- CSS poprawiający responsywność panelu na smartfonach -->
   <style>
-    /* Blokada poziomego skrolowania dla całego panelu */
-    html, body {
-      overflow-x: hidden !important;
+    /* GLOBALNE WYMUSZENIE ELASTYCZNOŚCI */
+    html, body, #nc-root {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
       max-width: 100% !important;
+      /* Włączamy normalne przewijanie w pionie i poziomie, jeśli jakikolwiek element wyskoczy */
+      overflow-x: auto !important; 
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Wymuszenie zmian stylów w strukturze Decap CMS na małych ekranach */
+    /* Targetowanie wszystkich kontenerów wewnątrz CMS-a */
+    #nc-root * {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* POPRAWKI DLA SMARTFONÓW */
     @media (max-width: 768px) {
-      /* Zmniejszenie bocznego paska nawigacji CMS, żeby nie zajmował pół ekranu */
-      header {
-        padding: 10px !important;
+      /* Wymuszenie, by główne sekcje edytora układały się w jedną kolumnę zamiast obok siebie */
+      div[class^="AppMainContainer"],
+      div[class^="EditorContainer"],
+      div[class^="CollectionContainer"] {
+        flex-direction: column !important;
+        padding: 5px !important;
       }
-      
-      /* Główne kontenery formularzy */
-      div[class*="AppMainContainer"], 
-      div[class*="CollectionContainer"],
-      div[class*="EditorContainer"] {
-        padding: 10px !important;
-        min-width: 0 !important;
+
+      /* Wyłączenie prawego panelu podglądu (Preview) na telefonie. 
+         Renowator w warsztacie potrzebuje tylko czystych pól do wpisania tekstu i dodania foto, 
+         podgląd na żywo na ekranie 5-calowym tylko marnuje miejsce i rozpycha panel. */
+      div[class^="EditorPreviewPaneContainer"], 
+      section[class^="PreviewPaneContainer"] {
+        display: none !important;
+      }
+
+      /* Rozszerzenie lewej części z formularzami na cały ekran */
+      div[class^="EditorFormContainer"] {
         width: 100% !important;
-      }
-
-      /* Pola formularza (inputy, textarea) – dopasowanie do szerokości */
-      div[class*="ControlContainer"] {
-        margin-bottom: 15px !important;
-        width: 100% !important;
-      }
-
-      /* Górny pasek z przyciskiem "Publish" – zabezpieczenie przed uciekaniem */
-      div[class*="TopBarContainer"] {
-        padding: 0 10px !important;
-        justify-content: space-between !important;
-      }
-
-      /* Przyciski w panelu */
-      button {
-        padding: 6px 12px !important;
-        font-size: 14px !important;
-      }
-
-      /* Zdjęcia podglądu – żeby wielka fotka nie rozepchała ekranu */
-      img[class*="ImagePreview"] {
         max-width: 100% !important;
-        height: auto !important;
+        padding: 10px !important;
+      }
+
+      /* Pasek górny (z przyciskiem Publish/Opublikuj) */
+      div[class^="TopBarContainer"] {
+        width: 100% !important;
+        position: static !important; /* Zapobiega zamrażaniu paska, który zasłania pół ekranu */
+        padding: 10px !important;
+        display: flex !important;
+        flex-wrap: wrap !important; /* W razie potrzeby przyciski przejdą do nowej linii */
+        gap: 10px !important;
+      }
+
+      /* Poprawka dla list i kafelków projektów */
+      div[class^="Grid"], div[class^="CardsContainer"] {
+        grid-template-columns: 1fr !important; /* Tylko jedna kolumna na telefonie */
       }
     }
   </style>
