@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renowacja Mebli - Drugie Życie Drewna</title>
+    <!-- Dołączenie Netlify Identity Widget do logowania renowatora -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        :root {
+            --primary-color: #8B5A2B; /* Ciepły, stolarski brąz */
+            --dark-color: #2C2C2C;
+            --light-color: #F9F6F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Nawigacja i Responsywne Menu */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* Sekcje strony */
+        section {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: none; /* Ukrywamy sekcje domyślnie dla efektu SPA */
+        }
+
+        section.active-section {
+            display: block;
+        }
+
+        /* Sekcja Wizytówka (O mnie) */
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-features {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Responsywna Galeria */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-info {
+            padding: 12px;
+        }
+
+        .gallery-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        /* Sekcja Kontakt */
+        .contact-info {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+
+        /* Dostosowanie pod smartfony (Media Queries) */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .profile-features {
+                grid-template-columns: 1fr;
+            }
+            section {
+                padding: 40px 15px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+            .gallery-item img {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">KunsztDrewna.pl</div>
+            <ul class="nav-links">
+                <li><a href="#wizytowka" class="nav-link active" onclick="switchTab('wizytowka')">Wizytówka</a></li>
+                <li><a href="#galeria" class="nav-link" onclick="switchTab('galeria')">Realizacje</a></li>
+                <li><a href="#kontakt" class="nav-link" onclick="switchTab('kontakt')">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ZAKŁADKA 1: WIZYTÓWKA -->
+    <section id="wizytowka" class="active-section">
+        <div class="hero">
+            <h1>Renowacja z Pasją</h1>
+            <p>Przywracam blask starym, rodzinnym meblom. Łączę tradycyjne rzemiosło z nowoczesnymi technikami wykończenia.</p>
+        </div>
+        <div class="profile-features">
+            <div class="feature-box">
+                <h3>Odnawianie i Naprawa</h3>
+                <p>Usuwanie starych powłok, uzupełnianie ubytków, fornirowanie i wzmacnianie konstrukcji mebla.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Eko Wykończenia</h3>
+                <p>Stosuję bezpieczne dla środowiska oleje, woski oraz wysokiej jakości lakiery akrylowe.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ZAKŁADKA 2: GALERIA (Zczytująca z CMS/GitHub) -->
+    <section id="galeria">
+        <h2>Moje Realizacje</h2>
+        <p>Najnowsze projekty wrzucane prosto z warsztatu:</p>
+        <div class="gallery-grid" id="galleryContainer">
+            <!-- Tutaj JavaScript wstrzyknie zdjęcia -->
+            <p>Ładowanie projektów...</p>
+        </div>
+    </section>
+
+    <!-- ZAKŁADKA 3: KONTAKT -->
+    <section id="kontakt">
+        <h2>Porozmawiajmy o Twoim meblu</h2>
+        <p>Masz w piwnicy stary fotel lub komodę po babci? Wyślij zdjęcie, a przygotuję bezpłatną wycenę.</p>
+        <div class="contact-info">
+            <p><strong>📍 Warsztat:</strong> ul. Stolarska 12, Gdańsk</p>
+            <p><strong>📞 Telefon:</strong> +48 500 600 700</p>
+            <p><strong>✉️ E-mail:</strong> kontakt@kunsztdrewna.pl</p>
+        </div>
+    </section>
+
+    <script>
+        // 1. Prosty system zakładek (SPA) bez przeładowania strony
+        function switchTab(tabId) {
+            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active-section'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active-section');
+            event.target.classList.add('active');
+        }
+
+        // 2. Dynamiczne pobieranie galerii z GitHuba / Decap CMS
+        // Aby uniknąć limitów API GitHuba (Rate Limit), Decap CMS zapisze dane w pliku JSON, który pobierzemy ze strony.
+        // Na potrzeby testu, jeśli plik jeszcze nie istnieje, skrypt wyświetli przykładowe dane.
+        async function loadGallery() {
+            const container = document.getElementById('galleryContainer');
+            try {
+                // Ścieżka do pliku z danymi, który wygeneruje nam Decap CMS
+                const response = await fetch('/assets/data/galeria.json');
+                if (!response.ok) throw new Error('Brak pliku danych, ładuję przykłady demo');
+                
+                const data = await response.json();
+                renderGallery(data.projekty);
+            } catch (error) {
+                console.log(error.message);
+                // Dane demonstracyjne wyświetlane przed pierwszą konfiguracją CMS
+                const demoData = [
+                    { tytul: "Komoda PRL po renowacji", foto: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500", opis: "Oczyszczona do żywego drewna, wykończona lakierem." },
+                    { tytul: "Stolik kawowy z lat 70.", foto: "https://images.unsplash.com/photo-1532372320978-9b4d1a358f4c?w=500", opis: "Blat zabezpieczony twardym olejowoskiem." }
+                ];
+                renderGallery(demoData);
+            }
+        }
+
+        function renderGallery(items) {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = '';
+            items.forEach(item => {
+                container.innerHTML += `
+                    <div class="gallery-item">
+                        <img src="${item.foto}" alt="${item.tytul}" loading="lazy">
+                        <div class="gallery-info">
+                            <h4>${item.tytul}</h4>
+                            <p>${item.opis || ''}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Uruchomienie ładowania galerii przy starcie
+        document.addEventListener("DOMContentLoaded", loadGallery);
+
+        // Integracja logowania Netlify Identity
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

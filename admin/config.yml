@@ -1,0 +1,25 @@
+backend:
+  name: git-gateway
+  branch: main # Upewnij się, że Twoja domyślna gałąź w GitHub to main (lub zmień na master)
+
+media_folder: "assets/img" # Gdzie mają zapisywać się zdjęcia z telefonu
+public_folder: "/assets/img"
+
+collections:
+  - name: "galeria_coll"
+    label: "Zarządzanie Galerią"
+    delete: true
+    # Zapisujemy wszystko do jednego pliku JSON, z którego nasz index.html pobiera dane
+    files:
+      - file: "assets/data/galeria.json"
+        label: "Lista Projektów"
+        name: "galeria_file"
+        fields:
+          - label: "Projekty w galerii"
+            name: "projekty"
+            widget: "list"
+            summary: '{{fields.tytul}}'
+            fields:
+              - { label: "Tytuł projektu", name: "tytul", widget: "string" }
+              - { label: "Zdjęcie mebla", name: "foto", widget: "image" }
+              - { label: "Krótki opis prac", name: "opis", widget: "text", required: false }
